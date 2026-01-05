@@ -1,0 +1,26 @@
+# server port
+server:
+  port: 8080
+
+# database
+spring:
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      format_sql: true
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: 8254
+  application:
+    name: springstudy2
+
+# mybatis
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  config-location: classpath:/mybatis-config.xml

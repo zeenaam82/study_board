@@ -3,6 +3,9 @@ package com.example.springstudy2.board.controller;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.ui.Model;
 import com.example.springstudy2.board.dto.BoardDTO;
 import com.example.springstudy2.board.service.BoardService;
@@ -98,5 +101,20 @@ public class BoardController {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/board/update/" + boardDTO.getId();
         }
+    }
+
+    @GetMapping("/paging")
+    public String paging(@PageableDefault(page = 1)Pageable pageable, Model model){
+        Page<BoardDTO> boardList = boardService.paging(pageable);
+
+        int blockLimit = 5;
+        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        int endPage = Math.min((startPage + blockLimit - 1), boardList.getTotalPages());
+
+        model.addAttribute("boardList", boardList);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        return "paging";
     }
 }

@@ -5,6 +5,10 @@ import com.example.springstudy2.board.entity.BoardEntity;
 import com.example.springstudy2.board.repository.BoardRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -59,5 +63,19 @@ public class BoardService {
         }else{
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
+    }
+
+    public Page<BoardDTO> paging(Pageable pageable) {
+        int page = pageable.getPageNumber() - 1; // 사용자가 요청한 페이지 번호 (0부터 시작하므로 1을 뺌)
+        int pageLimit = 3; // 한 페이지에 보여줄 글 개수 (테스트를 위해 3개로 설정)
+
+        // 1. DB에서 해당 페이지의 엔티티들을 가져옴 (id 기준으로 내림차순 정렬)
+        Page<BoardEntity> boardEntities =
+                boardRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
+
+        // 2. 엔티티를 DTO로 변환 (상태 정보까지 포함된 Page 객체로 변환)
+        Page<BoardDTO> boardDTOS = boardEntities.map(BoardDTO::toBoardDTO);
+
+        return boardDTOS;
     }
 }

@@ -67,7 +67,7 @@ public class BoardService {
 
     public Page<BoardDTO> paging(Pageable pageable) {
         int page = pageable.getPageNumber() - 1; // 사용자가 요청한 페이지 번호 (0부터 시작하므로 1을 뺌)
-        int pageLimit = 3; // 한 페이지에 보여줄 글 개수 (테스트를 위해 3개로 설정)
+        int pageLimit = 5; // 한 페이지에 보여줄 글 개수 (테스트를 위해 3개로 설정)
 
         // 1. DB에서 해당 페이지의 엔티티들을 가져옴 (id 기준으로 내림차순 정렬)
         Page<BoardEntity> boardEntities =
@@ -77,5 +77,23 @@ public class BoardService {
         Page<BoardDTO> boardDTOS = boardEntities.map(BoardDTO::toBoardDTO);
 
         return boardDTOS;
+    }
+
+    public Page<BoardDTO> search(String searchType, String keyword, Pageable pageable) {
+        int page = pageable.getPageNumber() - 1;
+        int pageLimit = 5;
+        Pageable pageRequest = PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id"));
+
+        Page<BoardEntity> boardEntities;
+        if ("boardTitle".equals(searchType)) {
+            //trim 공백제거
+            boardEntities = boardRepository.findByBoardTitleContaining(keyword.trim(), pageRequest);
+        } else {
+            boardEntities = boardRepository.findByBoardWriterContaining(keyword.trim(), pageRequest);
+        }
+        System.out.println("검색 타입: " + searchType);
+        System.out.println("검색어: [" + keyword + "]");
+
+        return boardEntities.map(BoardDTO::toBoardDTO);
     }
 }

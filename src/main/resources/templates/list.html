@@ -27,8 +27,8 @@
     </tbody>
 </table>
 <div>
-    <button th:onclick="|location.href='@{/board/save}'|" style="margin-right: 10px;>글작성</button>
-    <form action="/board/" method="get" style="display: inline;">
+    <button th:onclick="|location.href='@{/board/save}'|">글작성</button>
+    <form action="/board/" method="get" style="display: inline; margin-top: 10px;">
         <select name="searchType">
             <option value="boardTitle">제목</option>
             <option value="boardWriter">작성자</option>

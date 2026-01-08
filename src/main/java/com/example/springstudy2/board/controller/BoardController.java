@@ -1,5 +1,7 @@
 package com.example.springstudy2.board.controller;
 
+import com.example.springstudy2.board.dto.CommentDTO;
+import com.example.springstudy2.board.service.CommentService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,6 +25,7 @@ import java.util.List;
 @RequestMapping("/board")
 public class BoardController {
     private final BoardService boardService;
+    private final CommentService commentService;
 
     @GetMapping("/")
     public String list(@PageableDefault(page = 1) Pageable pageable,
@@ -97,6 +100,10 @@ public class BoardController {
 
         BoardDTO boardDTO = boardService.findById(id);
         model.addAttribute("board", boardDTO);
+
+        List<CommentDTO> commentDTOList = commentService.findAll(id);
+        model.addAttribute("commentList", commentDTOList);
+
         return "detail";
     }
 

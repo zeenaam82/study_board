@@ -7,7 +7,7 @@
 <body>
 <div th:if="${errorMessage}" style="color: red;" th:text="${errorMessage}"></div>
 
-<form th:action="@{/board/update}" method="post" name="updateForm">
+<form th:action="@{/board/update}" method="post" name="updateForm" enctype="multipart/form-data">
   <input type="hidden" name="id" th:value="${board.id}">
   writer: <input type="text" name="boardWriter" th:value="${board.boardWriter}" readonly> <br>
   pass: <input type="text" name="updatePass"> <br>
@@ -15,6 +15,10 @@
   title: <input type="text" name="boardTitle" th:value="${board.boardTitle}"> <br>
   contents: <textarea name="boardContents" cols="30" rows="10" th:text="${board.boardContents}"></textarea> <br>
   <input type="hidden" name="boardHits" th:value="${board.boardHits}">
+  <div th:if="${board.fileAttached == 1}">
+    <p>exist file: <span th:text="${board.originalFileName}"></span></p>
+  </div>
+  new file attach: <input type="file" name="boardFile"> <br>
   <input type="submit" value="글수정">
 </form>
 <script th:if="${errorMessage}">

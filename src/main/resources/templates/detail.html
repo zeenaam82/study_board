@@ -26,6 +26,12 @@
     <th>contents</th>
     <td th:text="${board.boardContents}"></td>
   </tr>
+  <tr th:if="${board.fileAttached == 1}">
+    <th>image</th>
+    <td>
+      <img th:src="@{|/upload/${board.storedFileName}|}" alt="첨부파일" style="max-width: 300px;">
+    </td>
+  </tr>
 </table>
 
 <div id="comment-write">
@@ -43,8 +49,8 @@
       <th>작성시간</th>
       <th>삭제</th>
     </tr>
-    <tr th:each="comment: ${commentList}">
-      <td th:text="${comment.id}"></td>
+    <tr th:each="comment, iterStat: ${commentList}">
+      <td th:text="${commentList.size() - iterStat.index}"></td>
       <td th:text="${comment.commentWriter}"></td>
       <td th:text="${comment.commentContents}"></td>
       <td th:text="${#temporals.format(comment.commentCreatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>

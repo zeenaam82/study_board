@@ -17,9 +17,9 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="board: ${boardList}">
-        <td th:text="${board.id}"></td>
-        <td><a th:href="@{|/board/${board.id}|}" th:text="${board.boardTitle}"></a></td>
+    <tr th:each="board, iterStat: ${boardList}">
+        <td th:text="${iterStat.count}"></td>
+        <td><a th:href="@{|/board/${board.id}|(page=${boardList.number + 1})}" th:text="${board.boardTitle}"></a></td>
         <td th:text="${board.boardWriter}"></td>
         <td th:text="${board.boardCreatedAt}"></td>
         <td th:text="${board.boardHits}"></td>
@@ -39,18 +39,14 @@
 </div>
 <div th:if="${boardList.totalPages > 0}">
     <a th:href="@{/board(page=1, searchType=${searchType}, keyword=${keyword})}">First</a>
-
     <a th:href="${boardList.first} ? '#' : @{/board(page=${boardList.number}, searchType=${searchType}, keyword=${keyword})}">prev</a>
-
     <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
-        <span th:if="${page == boardList.number + 1}" th:text="${page}" style="font-weight: bold; color: red;"></span>
-        <span th:unless="${page == boardList.number + 1}">
-            <a th:href="@{/board(page=${page}, searchType=${searchType}, keyword=${keyword})}" th:text="${page}"></a>
-        </span>
+    <span th:if="${page == boardList.number + 1}" th:text="${page}" style="font-weight: bold; color: red;"></span>
+    <span th:unless="${page == boardList.number + 1}">
+        <a th:href="@{/board/(page=${page}, searchType=${searchType}, keyword=${keyword})}" th:text="${page}"></a>
     </span>
-
+</span>
     <a th:href="${boardList.last} ? '#' : @{/board(page=${boardList.number + 2}, searchType=${searchType}, keyword=${keyword})}">next</a>
-
     <a th:href="@{/board(page=${boardList.totalPages}, searchType=${searchType}, keyword=${keyword})}">Last</a>
 </div>
 </body>

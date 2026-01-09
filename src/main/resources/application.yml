@@ -19,6 +19,16 @@ spring:
     password: 8254
   application:
     name: springstudy2
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+file:
+  upload:
+    #경로 설정
+    path: ${FILE_UPLOAD_PATH:C:/default_upload_path/}
 
 # mybatis
 mybatis:

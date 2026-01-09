@@ -5,7 +5,7 @@ import com.example.springstudy2.board.entity.BoardEntity;
 import com.example.springstudy2.board.entity.CommentEntity;
 import com.example.springstudy2.board.repository.BoardRepository;
 import com.example.springstudy2.board.repository.CommentRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

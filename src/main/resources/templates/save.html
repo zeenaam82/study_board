@@ -5,12 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-<form action="/board/save" method="post">
+<form action="/board/save" method="post" enctype="multipart/form-data">
     제목: <input type="text" name="boardTitle"><br>
     작성자: <input type="text" name="boardWriter"><br>
     비밀번호: <input type="text" name="boardPass"><br>
     내용: <textarea name="boardContents" cols="30" rows="10"></textarea>
-    <input type="submit" value="작성">
+    <label for="boardFile">이미지 첨부:</label>
+    <input type="file" name="boardFile" id="boardFile"><br><input type="submit" value="작성">
 </form>
 </body>
 </html>
